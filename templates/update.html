@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %} Update {% endblock title %}
+{% block body %}
+<div class="container mt-4">
+    <h2>Update</h2>
+    <form method="POST" action="/update/{{ todo.sno }}">
+
+<div class="mb-3">
+    <label for="subject_name" class="form-label">Subject Name</label>
+    <input type="text" class="form-control" value="{{todo.title}}"  name="subject_name" id="subject_name" placeholder="Enter subject name" required>
+</div>
+<div class="mb-3">
+    <label for="course_name" class="form-label">Course Name</label>
+    <input type="text" class="form-control" value="{{todo.course_name}}"  name="course_name" id="course_name" placeholder="Enter course name" required>
+</div>
+<div class="mb-3">
+    <label for="link" class="form-label">Document Link</label>
+    <input type="url" class="form-control" value="{{todo.link}}"  name="link" id="link" placeholder="Enter URL of Document" required>
+</div>
+<button type="submit" class="btn btn-primary">Submit</button>
+  {% endblock %}

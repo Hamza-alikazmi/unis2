@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block title %} Admin Panel {% endblock title %}
+{% block body %}
+<div class="container mt-4">
+  <h2>Admin Panel</h2>
+  <a href="/admin/logout" class="btn btn-danger mb-3">Logout</a>
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Sno</th>
+        <th scope="col">Title</th>
+        <th scope="col">Subject Name</th>
+        <th scope="col">Course Code</th>
+        <th scope="col">Time</th>
+        <th scope="col">Actions</th>
+        <th scope="col">Link</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for todo in alltodo %}
+      <tr>
+        <th scope="row">{{ loop.index }}</th>
+        <td>{{ todo.title or "N/A" }}</td>
+        <td>{{ todo.subject_name or "N/A" }}</td>
+        <td>{{ todo.course_name or "N/A" }}</td>
+        <td>{{ todo.date_created.strftime('%Y-%m-%d %H:%M:%S') if todo.date_created else "N/A" }}</td>
+        <td>
+          <a href="/update/{{ todo.sno }}" class="btn btn-outline-success mx-2">Edit</a>
+          <a href="/delete/{{ todo.sno }}" class="btn btn-outline-danger mx-2">Delete</a>
+        </td>
+    <td>
+        {% if todo.link %}
+             <a href="{{ todo.link }}" target="_blank">Open Document</a>
+        {% else %}
+             No Link
+        {% endif %}
+    </td>
+
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}
