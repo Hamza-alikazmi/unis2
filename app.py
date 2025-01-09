@@ -55,18 +55,20 @@ def admin_logout():
 @app.route("/", methods=["GET", "POST"])
 def hello_world():
     if request.method == 'POST':
-        title = request.form['title']
-        subject_name = request.form['subject_name']
-        course_name = request.form['course_name']
-        link = request.form['link']
+        try:
+            title = request.form['title']
+            subject_name = request.form['subject_name']
+            course_name = request.form['course_name']
+            link = request.form['link']
 
-        todo = Todo(title=title, subject_name=subject_name, course_name=course_name, link=link)
-        db.session.add(todo)
-        db.session.commit()
+            todo = Todo(title=title, subject_name=subject_name, course_name=course_name, link=link)
+            db.session.add(todo)
+            db.session.commit()
 
-    alltodo = Todo.query.all()
-    return render_template('index.html', alltodo=alltodo)
-
+            alltodo = Todo.query.all()
+            return render_template('index.html', alltodo=alltodo)    
+        except Exception as e:
+            return str(e), 500
 # Route to update a todo
 @app.route("/update/<int:sno>", methods=["GET", "POST"])
 def update(sno):
