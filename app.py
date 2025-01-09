@@ -16,10 +16,10 @@ migrate = Migrate(app, db)
 class Todo(db.Model):
     sno = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(200), nullable=False)
-    subject_name = db.Column(db.String(100), nullable=False)  # Subject Name
-    course_name = db.Column(db.String(100), nullable=False)  # Course Name
+    subject_name = db.Column(db.String(100), nullable=False)
+    course_name = db.Column(db.String(100), nullable=False)
     date_created = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
-    link = db.Column(db.String(300), nullable=True)  # Document Link
+    link = db.Column(db.String(300), nullable=True)
 
     def __repr__(self) -> str:
         return f"{self.sno} - {self.title}"
@@ -55,43 +55,37 @@ def admin_logout():
 @app.route("/", methods=["GET", "POST"])
 def hello_world():
     if request.method == 'POST':
-        # Get data from the form
         title = request.form['title']
         subject_name = request.form['subject_name']
         course_name = request.form['course_name']
         link = request.form['link']
 
-        # Create a new Todo entry with the new fields
         todo = Todo(title=title, subject_name=subject_name, course_name=course_name, link=link)
         db.session.add(todo)
         db.session.commit()
 
-    # Fetch all todos
     alltodo = Todo.query.all()
     return render_template('index.html', alltodo=alltodo)
-
 
 # Route to update a todo
 @app.route("/update/<int:sno>", methods=["GET", "POST"])
 def update(sno):
-    todo = Todo.query.filter_by(sno=sno).first()
+    todo = Todo.query.get_or_404(sno)
     if request.method == 'POST':
-        # Update the todo with form data
         todo.title = request.form['title']
-        todo.desc = request.form['desc']
+        todo.subject_name = request.form['subject_name']  # Fixed field reference
+        todo.course_name = request.form['course_name']    # Fixed field reference
         db.session.commit()
         return redirect("/admin/panel") if 'admin' in session else redirect("/")
     
-    # Render the update page with the todo details
     return render_template("update.html", todo=todo)
 
 # Route to delete a todo
 @app.route("/delete/<int:sno>")
 def delete(sno):
-    todo = Todo.query.filter_by(sno=sno).first()
+    todo = Todo.query.get_or_404(sno)
     db.session.delete(todo)
     db.session.commit()
     return redirect("/admin/panel") if 'admin' in session else redirect("/")
 
-if __name__ == "__main__":
-    app.run(debug=True, port=5050)
+# No need for app.run() here for Vercel
