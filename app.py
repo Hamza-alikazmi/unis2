@@ -4,7 +4,7 @@ from flask_migrate import Migrate
 from datetime import datetime
 
 app = Flask(__name__)
-app.secret_key = 'supersecretkey'  # Secret key for session management
+app.secret_key = "can'tsharewithyou"  # Secret key for session management
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///todo.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
