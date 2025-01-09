@@ -3,4 +3,5 @@ Flask-Migrate==3.1.0
 Flask-SQLAlchemy==2.5.1
 Jinja2==3.1.5
 SQLAlchemy==1.4.39
+Werkzeug==2.2.3
 gunicorn
